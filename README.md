@@ -17,7 +17,7 @@ You'll need to grab an access token from the SF CLI before you can use any of th
 2. Install ```task``` and ```sf``` using the package manager of your choice. Consider also installing ```tasksh``` for ease of use.
 3. Authenticate to Salesforce.
 ```sh
-sf org login web --alias <ORG ALIAS OF CHOICE> --instance-url <YOUR INSTANCE URL>
+sf org login web --alias <ORG_ALIAS> --instance-url <YOUR INSTANCE URL>
 ```
 4. ```cd``` into the repo, if you haven't already, and initialize and activate a virtualenv.
 ```sh
@@ -30,7 +30,7 @@ pip install -r requirements.txt
 ```
 6. Initialize access tokens and $PYTHONPATH.
 ```sh
-source scripts/init.sh <PREVIOUSLY CHOSEN ORG ALIAS>
+source scripts/init.sh <ORG_ALIAS>
 ```
 7. Install the hook shims.
 ```sh
@@ -39,7 +39,7 @@ install-hook-shims -r *
 ```
 8. Finally, make sure to import tasks from Salesforce:
 ```sh
-./scripts/sf_pull.py | import task
+./scripts/sf_read.py | import task
 ```
 
 Now you're all set to run Taskwarrior through ```task``` or ```tasksh```. You'll notice your Salesforce tasks will be tagged with ```+salesforce``` by default, and any changes you make to their status in Taskwarrior within the virtualenv will be immediately synced to Salesforce.
@@ -47,8 +47,8 @@ Now you're all set to run Taskwarrior through ```task``` or ```tasksh```. You'll
 When you want to start using the hooks again (e.g. after you've closed your terminal), you won't need to go through all that setup again. Here's all you'll need to do:
 ```sh
 source bin/activate
-source scripts/init.sh <ORG ALIAS AGAIN>
-./scripts/sf_pull.py | import task
+source scripts/init.sh <ORG_ALIAS>
+./scripts/sf_read.py | import task
 ```
 
 ## Uninstallation
