@@ -39,7 +39,8 @@ def output_datetime(dt):
 
 def pull_tasks():
 	try:
-		data = sf.query_all_iter("SELECT Id,AccountId,Subject,Priority,Description,Status,ActivityDate FROM Task WHERE OwnerId='" + sfuserid + "' AND (NOT IsClosed = true)")
+		#data = sf.query_all_iter("SELECT Id,AccountId,Subject,Priority,Description,Status,ActivityDate FROM Task WHERE OwnerId='" + sfuserid + "' AND (NOT IsClosed = true)")
+		data = sf.query_all_iter("SELECT FIELDS(STANDARD) FROM Task WHERE OwnerId='" + sfuserid + "' AND (NOT IsClosed = true)")
 	except:
 		error("Could not pull tasks from Salesforce.")
 		sys.exit(1)
@@ -51,10 +52,12 @@ def pull_tasks():
 		due_date = None,
 		if sftask["ActivityDate"]:
 			due_date = datetime.datetime.strptime(sftask["ActivityDate"], "%Y-%m-%d")
+		# 2024-09-23T15:53:41.000+0000
+		created_date = datetime.datetime.strptime(sftask["CreatedDate"][:-9], "%Y-%m-%dT%H:%M:%S")
 		
 		task = {
 			"description":		sftask["Subject"],
-			"entry":		output_datetime(current_time),
+			"entry":		output_datetime(created_date),
 			"status":		statuses[sftask["Status"]],
 			"priority":		priorities[sftask["Priority"]],
 			"due":			output_datetime(due_date),
