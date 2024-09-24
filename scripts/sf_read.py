@@ -75,7 +75,7 @@ def pull_tasks():
 		
 		# if the salesforce task is currently in progress then add a started attribute to taskw task
 		if sftask["Status"] == "In Progress":
-			task["started"] = output_datetime(current_time)
+			task["start"] = output_datetime(current_time)
 		elif sftask["Status"] == "Waiting on someone else":
 			task["tags"].append("waitingfor")
 
