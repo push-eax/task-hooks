@@ -40,7 +40,7 @@ def output_datetime(dt):
 def pull_tasks():
 	try:
 		#data = sf.query_all_iter("SELECT Id,AccountId,Subject,Priority,Description,Status,ActivityDate FROM Task WHERE OwnerId='" + sfuserid + "' AND (NOT IsClosed = true)")
-		data = sf.query_all_iter("SELECT FIELDS(STANDARD) FROM Task WHERE OwnerId='" + sfuserid + "' AND (NOT IsClosed = true)")
+		data = sf.query_all_iter("SELECT FIELDS(ALL) FROM Task WHERE OwnerId='" + sfuserid + "' AND (NOT IsClosed = true) LIMIT 200")
 	except:
 		error("Could not pull tasks from Salesforce.")
 		sys.exit(1)
@@ -58,7 +58,7 @@ def pull_tasks():
 		task = {
 			"description":		sftask["Subject"],
 			"entry":		output_datetime(created_date),
-			"status":		statuses[sftask["Status"]],
+			"status":		"pending",
 			"priority":		priorities[sftask["Priority"]],
 			"due":			output_datetime(due_date),
 			"tags":			["salesforce"],
@@ -75,7 +75,7 @@ def pull_tasks():
 		
 		# if the salesforce task is currently in progress then add a started attribute to taskw task
 		if sftask["Status"] == "In Progress":
-			task["started"] = int(current_time.timestamp())
+			task["started"] = output_datetime(current_time)
 
 		if sftask["AccountId"]:
 			task["sfaccountid"] = sftask["AccountId"]
