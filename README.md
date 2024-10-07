@@ -10,11 +10,13 @@ Salesforce has a notion of a Task object, which is quite general and can be used
 - An import script which pulls the user's tasks from Salesforce's API and maps them to Taskwarrior tasks. 
 - A Taskwarrior hook which updates those tasks in Salesforce as you interact with them in Taskwarrior e.g. start, stop, complete, block.
 
-You'll need to grab an access token from the SF CLI before you can use any of these. Instructions below.
+You'll need to grab an access token from the Salesforce CLI (```sf```) before you can use any of these. Instructions below.
 
 ## Setup
 1. Clone this repo.
-2. Install ```task``` and ```sf``` using the package manager of your choice. Consider also installing ```tasksh``` for ease of use.
+2. Install ```task``` and ```sf``` using the package manager of your choice, and consider also installing ```tasksh``` for ease of use. 
+    - On all platforms, ```npm``` is the recommended package manager for installing the Salesforce CLI. Run ```npm install -g @salesforce/cli```.
+    - On MacOS, ```sf``` is also available through Homebrew. Run ```brew install sf```.
 3. Authenticate to Salesforce.
 ```sh
 sf org login web --alias <ORG_ALIAS> --instance-url <YOUR INSTANCE URL>
